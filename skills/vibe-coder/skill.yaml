@@ -1,0 +1,14 @@
+name: vibe-coder
+version: 0.1.0
+description: 在K3上从自然语言生成并验证离线HTML应用
+target: spacemit-k3-riscv64
+entrypoint: SKILL.md
+permissions:
+  filesystem:
+    scope: workspace
+    access: read-write
+  network:
+    default: deny
+  command:
+    allow:
+      - python3

@@ -1,0 +1,677 @@
+{
+  "schema_version": 1,
+  "suite_id": "mpv-desktop-acceptance",
+  "version": "1.1.0",
+  "scope_description": "用户原表去掉第2项窗口大小调节后的12项MPV测试；保留其余原编号",
+  "excluded_case_ids": ["2"],
+  "source": {
+    "type": "user-screenshot",
+    "filename": "codex-clipboard-17a6d69a-45e2-4ac5-8dd4-534c6d38c861.png",
+    "visible_case_ids": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13"
+    ],
+    "complete_workbook": false
+  },
+  "cases": [
+    {
+      "id": "1",
+      "module": "",
+      "title": "mpv打开关闭",
+      "priority": "P0",
+      "source_precondition": "",
+      "expected": [
+        "正常打开应用",
+        "能用mpv成功播放视频",
+        "能成功关闭应用，视频退出播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "打开mpv应用，验证是否能正常打开",
+          "allowed_methods": [
+            "desktop-launch"
+          ],
+          "required_observations": [
+            {
+              "key": "window_visible",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "选中视频，打开方式选择MPV，验证是否能成功打开",
+          "allowed_methods": [
+            "open-with"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "source_step": "关闭mpv，验证是否能成功关闭并退出应用",
+          "allowed_methods": [
+            "window-close"
+          ],
+          "required_observations": [
+            {
+              "key": "window_closed",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "process_state"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "module": "基础播放功能",
+      "title": "正常播放本地视频",
+      "priority": "P0",
+      "source_precondition": "",
+      "expected": [
+        "视频正常播放，音画同步"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "打开MPV",
+          "allowed_methods": [
+            "desktop-launch"
+          ],
+          "required_observations": [
+            {
+              "key": "window_visible",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "拖入本地视频文件",
+          "allowed_methods": [
+            "drag-drop"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            },
+            {
+              "key": "av_sync_valid",
+              "evidence_kinds": [
+                [
+                  "av_sync_measurement",
+                  "human_observation"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "module": "基础播放功能",
+      "title": "暂停/继续播放",
+      "priority": "P0",
+      "source_precondition": "已打开MPV",
+      "expected": [
+        "视频暂停后恢复播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "点击暂停",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "paused",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "source_step": "点击继续",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "resumed",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "module": "基础播放功能",
+      "title": "快进/快退（快捷键或进度条）",
+      "priority": "P1",
+      "source_precondition": "已打开MPV",
+      "expected": [
+        "视频进度正确跳转"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "按下快进键（→）或拖动进度条",
+          "allowed_methods": [
+            "keyboard",
+            "progress-drag"
+          ],
+          "required_observations": [
+            {
+              "key": "seek_valid",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "module": "基础播放功能",
+      "title": "音量调节",
+      "priority": "P1",
+      "source_precondition": "已打开MPV",
+      "expected": [
+        "音量变化符合预期"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "调节音量键（↑↓）",
+          "allowed_methods": [
+            "keyboard"
+          ],
+          "required_observations": [
+            {
+              "key": "volume_binding_valid",
+              "evidence_kinds": [
+                [
+                  "binding_dump"
+                ]
+              ]
+            },
+            {
+              "key": "volume_valid",
+              "evidence_kinds": [
+                [
+                  "property_samples"
+                ],
+                [
+                  "audio_measurement",
+                  "human_observation"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "user_authorized_adaptation": "用户补充：这个以mpv的行为为准。按当前实际音量增减键执行；保留原表↑↓，记录实际键位和绑定证据，无需再次确认。"
+    },
+    {
+      "id": "7",
+      "module": "基础播放功能",
+      "title": "全屏/退出全屏",
+      "priority": "P1",
+      "source_precondition": "已打开MPV",
+      "expected": [
+        "全屏切换正常"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "按键全屏",
+          "allowed_methods": [
+            "keyboard"
+          ],
+          "required_observations": [
+            {
+              "key": "fullscreen_on",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "window_geometry"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "source_step": "再次按键退出",
+          "allowed_methods": [
+            "keyboard"
+          ],
+          "required_observations": [
+            {
+              "key": "fullscreen_off",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "window_geometry"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放MP4格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放MKV格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放AVI格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放MOV格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放WebM格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放FLV格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

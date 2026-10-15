@@ -1,0 +1,370 @@
+{
+  "schema": "vpu-benchmark-baselines",
+  "schema_version": 2,
+  "suite": "default-k3-vpu-regression",
+  "description": "FPS: K3 product specification targets at 4 cores @ 1 GHz, applied only to the existing registered cases. Bandwidth: existing measured MVX session profiling baselines are unchanged.",
+  "user_fps_reference_set_at": "2026-09-20",
+  "calibrated_at": "2026-09-04",
+  "calibration_repeats": 3,
+  "environment": {
+    "board_model": "SpacemiT K3 Pico ITX",
+    "os": "Bianbu 4.0.3",
+    "kernel": "6.18.3-generic",
+    "mvx_driver": "6.18.3",
+    "vpu_driver": "mvx",
+    "ffmpeg": "7:8.0.1-3ubuntu2bb1",
+    "provider": "vpu-benchmark 0.13.12"
+  },
+  "asset_set_id": "bbb-k3-hw-1080p25-200f-v1",
+  "input_artifact": "h265",
+  "thresholds": {
+    "fps_warn_regression_percent": 5,
+    "fps_fail_regression_percent": 10,
+    "confirmation_runs_on_alert": 2,
+    "mvx_bandwidth_warn_increase_percent": 15,
+    "mvx_bandwidth_fail_increase_percent": 25
+  },
+  "cases": [
+    {
+      "id": "h264-4k-encode-1ch",
+      "label": "H.264 4K 单路编码",
+      "operation": "encode",
+      "codec": "h264",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "i420",
+      "width": 3840,
+      "height": 2160,
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 90.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1428.6575,
+        "mvx_bandwidth_samples": [
+          1429.0108,
+          1428.6575,
+          1428.5909
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "h265-4k-encode-1ch",
+      "label": "H.265 4K 单路编码",
+      "operation": "encode",
+      "codec": "h265",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "i420",
+      "width": 3840,
+      "height": 2160,
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 90.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1222.297,
+        "mvx_bandwidth_samples": [
+          1222.3041,
+          1221.946,
+          1222.297
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "h264-4k-decode-1ch",
+      "label": "H.264 4K 单路解码",
+      "operation": "decode",
+      "codec": "h264",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "h264",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 180.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1154.4377,
+        "mvx_bandwidth_samples": [
+          1154.3201,
+          1155.5714,
+          1154.4377
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "h265-4k-decode-1ch",
+      "label": "H.265 4K 单路解码",
+      "operation": "decode",
+      "codec": "h265",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "h265",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 180.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1142.1154,
+        "mvx_bandwidth_samples": [
+          1142.1154,
+          1142.0189,
+          1142.2019
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "h264-1080p-encode-12ch",
+      "label": "H.264 1080p 12路编码",
+      "operation": "encode",
+      "codec": "h264",
+      "sessions": 12,
+      "input_artifact": "i420",
+      "width": 1920,
+      "height": 1080,
+      "frames": 200,
+      "warmup_iterations": 0,
+      "baseline": {
+        "fps": 30.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 2504.9349,
+        "mvx_bandwidth_samples": [
+          2504.225,
+          2504.9349,
+          2506.6907
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 30
+    },
+    {
+      "id": "h265-1080p-encode-12ch",
+      "label": "H.265 1080p 12路编码",
+      "operation": "encode",
+      "codec": "h265",
+      "sessions": 12,
+      "input_artifact": "i420",
+      "width": 1920,
+      "height": 1080,
+      "frames": 200,
+      "warmup_iterations": 0,
+      "baseline": {
+        "fps": 30.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 2192.1744,
+        "mvx_bandwidth_samples": [
+          2192.1744,
+          2193.3127,
+          2190.9561
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 30
+    },
+    {
+      "id": "h265-1080p-decode-24ch",
+      "label": "H.265 1080p 24路解码",
+      "operation": "decode",
+      "codec": "h265",
+      "sessions": 24,
+      "frames": 200,
+      "warmup_iterations": 0,
+      "baseline": {
+        "fps": 30.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 4268.2095,
+        "mvx_bandwidth_samples": [
+          4275.1696,
+          4267.565,
+          4268.2095
+        ],
+        "mvx_bandwidth_source": "three-run-mvx-session-profile-median"
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 30
+    },
+    {
+      "id": "vp8-4k-encode-1ch",
+      "label": "VP8 4K 单路编码",
+      "operation": "encode",
+      "codec": "vp8",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "i420",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 90.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1242.19,
+        "mvx_bandwidth_samples": [
+          1242.19,
+          1242.2835,
+          1242.1812
+        ]
+      },
+      "width": 3840,
+      "height": 2160,
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "vp8-4k-decode-1ch",
+      "label": "VP8 4K 单路解码",
+      "operation": "decode",
+      "codec": "vp8",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "vp8",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 120.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1213.6042,
+        "mvx_bandwidth_samples": [
+          1213.5598,
+          1213.6042,
+          1213.892
+        ]
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "vp9-4k-encode-1ch",
+      "label": "VP9 4K 单路编码",
+      "operation": "encode",
+      "codec": "vp9",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "i420",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 90.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1352.4679,
+        "mvx_bandwidth_samples": [
+          1352.4679,
+          1345.4267,
+          1356.6694
+        ]
+      },
+      "width": 3840,
+      "height": 2160,
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "vp9-4k-decode-1ch",
+      "label": "VP9 4K 单路解码",
+      "operation": "decode",
+      "codec": "vp9",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "vp9",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 180.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1133.5567,
+        "mvx_bandwidth_samples": [
+          1133.5567,
+          1133.66,
+          1133.5408
+        ]
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "mjpeg-4k-encode-1ch",
+      "label": "MJPEG 4K 单路编码",
+      "operation": "encode",
+      "codec": "mjpeg",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "i420",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 90.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 896.6021,
+        "mvx_bandwidth_samples": [
+          896.5573,
+          896.6021,
+          896.6183
+        ]
+      },
+      "width": 3840,
+      "height": 2160,
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    },
+    {
+      "id": "mjpeg-4k-decode-1ch",
+      "label": "MJPEG 4K 单路解码",
+      "operation": "decode",
+      "codec": "mjpeg",
+      "sessions": 1,
+      "asset_variant": "4k",
+      "input_artifact": "mjpeg",
+      "frames": 200,
+      "warmup_iterations": 1,
+      "baseline": {
+        "fps": 90.0,
+        "source": "k3-product-spec-4cores-1ghz",
+        "mvx_bandwidth_mbps": 1356.4531,
+        "mvx_bandwidth_samples": [
+          1356.4531,
+          1350.4179,
+          1356.512
+        ]
+      },
+      "mvx_bandwidth_method": "mvx-session-profile-v1",
+      "mvx_bandwidth_target_fps": 60
+    }
+  ],
+  "extended_codec_calibration": {
+    "date": "2026-09-08",
+    "repeats": 3,
+    "evidence": "/home/bianbu/.local/state/vpu-benchmark/codec-calibration-m49uax5i/calibration.json",
+    "skill_version": "0.13.0"
+  },
+  "mvx_bandwidth_calibration": {
+    "method": "mvx-session-profile-v1",
+    "repeats": 3,
+    "aggregation": "median",
+    "date": "2026-09-08",
+    "evidence": "/home/bianbu/.local/state/vpu-benchmark/mvx-ddr-calibration-ut08wsuv/calibration.json",
+    "units": "MB/s (1000000 bytes/s)",
+    "output_policy": "encode to temporary elementary streams; decode without YUV output file"
+  },
+  "multi_encode_12ch_mvx_bandwidth_calibration": {
+    "method": "mvx-session-profile-v1",
+    "sessions": 12,
+    "target_fps_per_session": 30,
+    "repeats": 3,
+    "aggregation": "median",
+    "date": "2026-09-20",
+    "evidence": "/home/bianbu/.local/state/vpu-benchmark/mvx-bandwidth-calibration-12ch-20260920-175954",
+    "units": "MB/s (1000000 bytes/s)"
+  }
+}

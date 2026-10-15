@@ -1,0 +1,701 @@
+{
+  "schema_version": 1,
+  "suite_id": "totem-desktop-acceptance",
+  "version": "1.1.0",
+  "excluded_case_ids": ["2"],
+  "source": {
+    "type": "adapted-player-baseline",
+    "derived_from": "mpv-desktop-acceptance@1.0.0",
+    "original_screenshot": "codex-clipboard-17a6d69a-45e2-4ac5-8dd4-534c6d38c861.png",
+    "not_original_app_test_sheet": true,
+    "basis": "用户要求把该应用加入现有技能，按目标应用实际操作适配播放器通用项目。"
+  },
+  "cases": [
+    {
+      "id": "1",
+      "module": "",
+      "title": "Totem打开关闭",
+      "priority": "P0",
+      "source_precondition": "",
+      "expected": [
+        "正常打开应用",
+        "能用Totem成功播放视频",
+        "能成功关闭应用，视频退出播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "打开Totem应用，验证是否能正常打开",
+          "allowed_methods": [
+            "desktop-launch"
+          ],
+          "required_observations": [
+            {
+              "key": "window_visible",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "打开mpv应用，验证是否能正常打开"
+        },
+        {
+          "id": "2",
+          "source_step": "选中视频，打开方式选择Totem，验证是否能成功打开",
+          "allowed_methods": [
+            "open-with"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "选中视频，打开方式选择MPV，验证是否能成功打开"
+        },
+        {
+          "id": "3",
+          "source_step": "关闭Totem，验证是否能成功关闭并退出应用",
+          "allowed_methods": [
+            "window-close"
+          ],
+          "required_observations": [
+            {
+              "key": "window_closed",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "process_state"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "关闭mpv，验证是否能成功关闭并退出应用"
+        }
+      ],
+      "derived_from_case_id": "1"
+    },
+    {
+      "id": "3",
+      "module": "基础播放功能",
+      "title": "正常播放本地视频",
+      "priority": "P0",
+      "source_precondition": "",
+      "expected": [
+        "视频正常播放，音画同步"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "打开Totem",
+          "allowed_methods": [
+            "desktop-launch"
+          ],
+          "required_observations": [
+            {
+              "key": "window_visible",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "打开MPV"
+        },
+        {
+          "id": "2",
+          "source_step": "拖入本地视频文件",
+          "allowed_methods": [
+            "drag-drop"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            },
+            {
+              "key": "av_sync_valid",
+              "evidence_kinds": [
+                [
+                  "av_sync_measurement",
+                  "human_observation"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "拖入本地视频文件"
+        }
+      ],
+      "derived_from_case_id": "3"
+    },
+    {
+      "id": "4",
+      "module": "基础播放功能",
+      "title": "暂停/继续播放",
+      "priority": "P0",
+      "source_precondition": "已打开Totem",
+      "expected": [
+        "视频暂停后恢复播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放视频"
+        },
+        {
+          "id": "2",
+          "source_step": "点击暂停",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "paused",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "点击暂停"
+        },
+        {
+          "id": "3",
+          "source_step": "点击继续",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "resumed",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "点击继续"
+        }
+      ],
+      "derived_from_case_id": "4"
+    },
+    {
+      "id": "5",
+      "module": "基础播放功能",
+      "title": "快进/快退（快捷键或进度条）",
+      "priority": "P1",
+      "source_precondition": "已打开Totem",
+      "expected": [
+        "视频进度正确跳转"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放视频"
+        },
+        {
+          "id": "2",
+          "source_step": "使用 Totem 实际快进/快退键或拖动进度条，分别验证两个方向",
+          "allowed_methods": [
+            "keyboard",
+            "progress-drag"
+          ],
+          "required_observations": [
+            {
+              "key": "seek_valid",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "按下快进键（→）或拖动进度条"
+        }
+      ],
+      "derived_from_case_id": "5"
+    },
+    {
+      "id": "6",
+      "module": "基础播放功能",
+      "title": "音量调节",
+      "priority": "P1",
+      "source_precondition": "已打开Totem",
+      "expected": [
+        "音量变化符合预期"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放视频"
+        },
+        {
+          "id": "2",
+          "source_step": "使用 Totem 当前实际音量键或界面控件增大并减小音量",
+          "allowed_methods": [
+            "keyboard",
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "volume_control_identified",
+              "evidence_kinds": [
+                [
+                  "binding_dump",
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            },
+            {
+              "key": "volume_valid",
+              "evidence_kinds": [
+                [
+                  "property_samples"
+                ],
+                [
+                  "audio_measurement",
+                  "human_observation"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "调节音量键（↑↓）"
+        }
+      ],
+      "derived_from_case_id": "6",
+      "user_authorized_adaptation": "按目标应用实际行为适配音量操作，不套用 mpv 键位；报告说明实际键位或控件。"
+    },
+    {
+      "id": "7",
+      "module": "基础播放功能",
+      "title": "全屏/退出全屏",
+      "priority": "P1",
+      "source_precondition": "已打开Totem",
+      "expected": [
+        "全屏切换正常"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放视频",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放视频"
+        },
+        {
+          "id": "2",
+          "source_step": "按键全屏",
+          "allowed_methods": [
+            "keyboard"
+          ],
+          "required_observations": [
+            {
+              "key": "fullscreen_on",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "window_geometry"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "按键全屏"
+        },
+        {
+          "id": "3",
+          "source_step": "再次按键退出",
+          "allowed_methods": [
+            "keyboard"
+          ],
+          "required_observations": [
+            {
+              "key": "fullscreen_off",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "window_geometry"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "再次按键退出"
+        }
+      ],
+      "derived_from_case_id": "7"
+    },
+    {
+      "id": "8",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放MP4格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放MP4格式视频，验证是否能成功正常播放"
+        }
+      ],
+      "derived_from_case_id": "8"
+    },
+    {
+      "id": "9",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放MKV格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放MKV格式视频，验证是否能成功正常播放"
+        }
+      ],
+      "derived_from_case_id": "9"
+    },
+    {
+      "id": "10",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放AVI格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放AVI格式视频，验证是否能成功正常播放"
+        }
+      ],
+      "derived_from_case_id": "10"
+    },
+    {
+      "id": "11",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放MOV格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放MOV格式视频，验证是否能成功正常播放"
+        }
+      ],
+      "derived_from_case_id": "11"
+    },
+    {
+      "id": "12",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放WebM格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放WebM格式视频，验证是否能成功正常播放"
+        }
+      ],
+      "derived_from_case_id": "12"
+    },
+    {
+      "id": "13",
+      "module": "格式兼容",
+      "title": "播放各种视频格式",
+      "priority": "P1",
+      "source_precondition": "",
+      "expected": [
+        "正常播放"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "播放FLV格式视频，验证是否能成功正常播放",
+          "allowed_methods": [
+            "gui-play"
+          ],
+          "required_observations": [
+            {
+              "key": "container_matches",
+              "evidence_kinds": [
+                [
+                  "media_probe"
+                ]
+              ]
+            },
+            {
+              "key": "video_advances",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ],
+          "original_mpv_step": "播放FLV格式视频，验证是否能成功正常播放"
+        }
+      ],
+      "derived_from_case_id": "13"
+    }
+  ],
+  "application": "totem",
+  "scope_description": "Totem 的12项通用播放器验收，对齐MPV现有范围，去掉第2项并保留其他编号；非全部功能"
+}

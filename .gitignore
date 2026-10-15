@@ -1,0 +1,10 @@
+# 导出与校验过程的中间产物
+artifacts/
+
+# Python 运行时残留
+__pycache__/
+*.py[cod]
+
+# 编辑器与操作系统噪声
+.DS_Store
+*.swp

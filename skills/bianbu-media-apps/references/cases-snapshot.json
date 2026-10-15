@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "suite_id": "snapshot-camera-acceptance",
+  "version": "1.0.0",
+  "application": "snapshot",
+  "source": {
+    "type": "new-basic-camera-baseline",
+    "not_from_user_screenshot": true,
+    "basis": "用户要求添加 Snapshot；设备安装信息确认其为 GNOME Camera，已安装 schema 包含 picture/video/qr-detection 模式。实际入口仍需在运行时验证。",
+    "priorities": "本技能建议优先级，非原表给定"
+  },
+  "scope_description": "Snapshot 新增的 8 项基础相机验收，非用户原始截图内容，也非全部相机功能",
+  "cases": [
+    {
+      "id": "1",
+      "module": "相机基础功能",
+      "title": "Snapshot 打开关闭",
+      "priority": "P0",
+      "source_precondition": "可用的板端图形会话",
+      "expected": [
+        "应用可见并可正常关闭"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "从平台入口打开 Snapshot，相机窗口可见",
+          "allowed_methods": [
+            "desktop-launch"
+          ],
+          "required_observations": [
+            {
+              "key": "window_visible",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "正常关闭本次相机窗口",
+          "allowed_methods": [
+            "window-close"
+          ],
+          "required_observations": [
+            {
+              "key": "window_closed",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "process_state"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "module": "相机基础功能",
+      "title": "摄像头实时预览",
+      "priority": "P0",
+      "source_precondition": "存在可用摄像头，应用权限可用",
+      "expected": [
+        "预览画面持续更新，无黑屏或卡死"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "打开相机并观察移动场景至少 3 秒",
+          "allowed_methods": [
+            "gui-camera-preview"
+          ],
+          "required_observations": [
+            {
+              "key": "window_visible",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ]
+              ]
+            },
+            {
+              "key": "camera_frames",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "module": "相机基础功能",
+      "title": "拍照与保存",
+      "priority": "P0",
+      "source_precondition": "预览正常，用户要求相机验收，保存位置可写",
+      "expected": [
+        "快门触发一张新照片，文件可解码并对应当前场景"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "切到拍照模式并点击一次快门，等待默认倒计时完成，定位新照片",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "photo_saved",
+              "evidence_kinds": [
+                [
+                  "captured_photo"
+                ],
+                [
+                  "media_probe"
+                ],
+                [
+                  "file_stat"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "module": "相机基础功能",
+      "title": "录像开始停止与保存",
+      "priority": "P0",
+      "source_precondition": "界面存在录像模式，可用摄像头，保存位置可写",
+      "expected": [
+        "开始录像、计时推进，正常停止后得到可解码的新视频"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "切换录像模式并点击开始，录制约 3 秒",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "recording_started",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "source_step": "点击停止，等待文件写入完成并检查本次新视频",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "recording_stopped",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            },
+            {
+              "key": "video_saved",
+              "evidence_kinds": [
+                [
+                  "captured_video"
+                ],
+                [
+                  "media_probe"
+                ],
+                [
+                  "file_stat"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "module": "相机基础功能",
+      "title": "查看本次拍摄结果",
+      "priority": "P1",
+      "source_precondition": "本轮已经成功拍照或录像",
+      "expected": [
+        "应用提供的缩略图或查看入口展示本轮拍摄结果"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "点击本轮拍摄结果的缩略图或查看入口，确认对应内容",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "capture_reviewed",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "media_probe"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "module": "相机基础功能",
+      "title": "切换摄像头",
+      "priority": "P1",
+      "source_precondition": "至少两个可用摄像头且界面提供切换入口",
+      "expected": [
+        "选择目标设备后预览与设备标识对应"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "使用界面切换到另一摄像头并观察至少 3 秒",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "camera_switched",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "device_state"
+                ]
+              ]
+            },
+            {
+              "key": "camera_frames",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "module": "相机基础功能",
+      "title": "窗口调整与预览",
+      "priority": "P1",
+      "source_precondition": "相机预览正常",
+      "expected": [
+        "三种窗口尺寸下预览持续更新且比例正常"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "通过窗口管理器调整至少三种尺寸并观察预览",
+          "allowed_methods": [
+            "window-resize"
+          ],
+          "required_observations": [
+            {
+              "key": "resize_valid",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "window_geometry"
+                ]
+              ]
+            },
+            {
+              "key": "camera_frames",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "time_series"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "module": "相机基础功能",
+      "title": "二维码识别",
+      "priority": "P1",
+      "source_precondition": "当前界面支持二维码模式，具备已知纯文本二维码测试卡",
+      "expected": [
+        "识别内容与已知文本一致，不自动打开链接或执行内容"
+      ],
+      "steps": [
+        {
+          "id": "1",
+          "source_step": "选择二维码模式，将已知纯文本测试卡置于摄像头前，记录识别文本",
+          "allowed_methods": [
+            "click"
+          ],
+          "required_observations": [
+            {
+              "key": "qr_recognized",
+              "evidence_kinds": [
+                [
+                  "screenshot",
+                  "screen_recording"
+                ],
+                [
+                  "diagnostic"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

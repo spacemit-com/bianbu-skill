@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "validated_source_commit": "e250c5fe3649241be2675e66dcf328fd5a467f93",
+  "defaults": {
+    "size_limit_bytes": 5000000000,
+    "warmup_runs": 1,
+    "measured_runs": 3,
+    "alert_threshold_pct": 10.0,
+    "reserve_disk_bytes": 2000000000
+  },
+  "handlers": {
+    "onnx": {
+      "match_extensions": [
+        ".onnx"
+      ],
+      "kind": "vision",
+      "adapter": "onnx",
+      "official_packages": {
+        "spacemit-onnxruntime": "2.0.6"
+      }
+    },
+    "gguf": {
+      "match_extensions": [
+        ".gguf"
+      ],
+      "kind": "llm",
+      "adapter": "gguf",
+      "official_packages": {
+        "llama.cpp-tools-spacemit": "0.1.1"
+      }
+    }
+  },
+  "models": {
+    "多模态大模型/fastvlm-0.5B": {
+      "kind": "vlm",
+      "adapter": "vlm_server",
+      "input_size": 512,
+      "cores": [
+        4,
+        8
+      ],
+      "llm_threads": 8,
+      "dense_accuracy_level": null,
+      "text_model_globs": [
+        "*text*.gguf"
+      ],
+      "vision_model_globs": [
+        "*vision*.onnx"
+      ],
+      "official_packages": {
+        "llama.cpp-tools-spacemit": "0.1.1",
+        "spacemit-onnxruntime": "2.0.3"
+      }
+    },
+    "多模态大模型/Qwen3.5-0.8B": {
+      "kind": "vlm",
+      "adapter": "vlm_server",
+      "input_size": 384,
+      "cores": [
+        4,
+        8
+      ],
+      "llm_threads": 8,
+      "dense_accuracy_level": null,
+      "text_model_globs": [
+        "*text*.gguf"
+      ],
+      "vision_model_globs": [
+        "*vision*384*.onnx"
+      ],
+      "official_packages": {
+        "llama.cpp-tools-spacemit": "0.1.1",
+        "spacemit-onnxruntime": "2.0.3"
+      }
+    },
+    "多模态大模型/Qwen3.5-2B": {
+      "kind": "vlm",
+      "adapter": "vlm_server",
+      "input_size": 384,
+      "cores": [
+        4,
+        8
+      ],
+      "llm_threads": 8,
+      "dense_accuracy_level": null,
+      "text_model_globs": [
+        "*text*.gguf"
+      ],
+      "vision_model_globs": [
+        "*vision*384*.onnx"
+      ],
+      "official_packages": {
+        "llama.cpp-tools-spacemit": "0.1.1",
+        "spacemit-onnxruntime": "2.0.3"
+      }
+    },
+    "多模态大模型/Qwen3.5-4B": {
+      "kind": "vlm",
+      "adapter": "vlm_server",
+      "input_size": 384,
+      "cores": [
+        4,
+        8
+      ],
+      "llm_threads": 8,
+      "dense_accuracy_level": null,
+      "text_model_globs": [
+        "*text*.gguf"
+      ],
+      "vision_model_globs": [
+        "*vision*384*.onnx"
+      ],
+      "official_packages": {
+        "llama.cpp-tools-spacemit": "0.1.1",
+        "spacemit-onnxruntime": "2.0.3"
+      }
+    },
+    "多模态大模型/Qwen3-VL-30B-A3B": {
+      "kind": "vlm",
+      "adapter": "vlm_server",
+      "input_size": 768,
+      "cores": [
+        4,
+        8
+      ],
+      "llm_threads": 8,
+      "dense_accuracy_level": 1,
+      "text_model_globs": [
+        "*.gguf"
+      ],
+      "vision_model_globs": [
+        "*vision*.onnx"
+      ],
+      "official_packages": {
+        "llama.cpp-tools-spacemit": "0.1.1",
+        "spacemit-onnxruntime": "2.0.3"
+      }
+    },
+    "基础模型/melotts": {
+      "kind": "audio",
+      "adapter": "filtered"
+    },
+    "基础模型/sensevoice": {
+      "kind": "audio",
+      "adapter": "filtered"
+    },
+    "多模态大模型/Qwen3-ASR 0.6B": {
+      "kind": "audio",
+      "adapter": "filtered"
+    },
+    "多模态大模型/Qwen3-ASR 1.7B": {
+      "kind": "audio",
+      "adapter": "filtered"
+    },
+    "多模态大模型/Fun-ASR Nano": {
+      "kind": "audio",
+      "adapter": "filtered"
+    },
+    "多模态大模型/Gemma4 ASR E2B": {
+      "kind": "audio",
+      "adapter": "filtered"
+    }
+  }
+}

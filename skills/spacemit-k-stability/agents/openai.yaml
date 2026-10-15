@@ -1,0 +1,4 @@
+interface:
+  display_name: "SpacemiT K 系列稳定性测试"
+  short_description: "运行并监控 K 系列芯片稳定性测试，输出报告和清理结果"
+  default_prompt: "使用 $spacemit-k-stability 在目标 SpacemiT K 系列设备上运行受监管的稳定性测试。"

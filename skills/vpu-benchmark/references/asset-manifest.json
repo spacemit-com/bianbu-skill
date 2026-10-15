@@ -1,0 +1,52 @@
+{
+  "schema": "vpu-benchmark-asset-manifest",
+  "schema_version": 1,
+  "asset_set_id": "bbb-k3-hw-1080p25-200f-v1",
+  "description": "Big Buck Bunny 30-second H.264 sample, converted on the K3 by FFmpeg stcodec hardware decode/encode.",
+  "source": {
+    "url": "https://raw.githubusercontent.com/chthomos/video-media-samples/master/big-buck-bunny-480p-30sec.mp4",
+    "filename": "source.mp4",
+    "codec": "h264",
+    "minimum_width": 640,
+    "minimum_height": 360
+  },
+  "transform": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "frames": 200,
+    "decoder": "h264_stcodec",
+    "encoders": {
+      "h264": "h264_stcodec",
+      "h265": "hevc_stcodec"
+    }
+  },
+  "variants": {
+    "4k": {
+      "asset_set_id": "roast-duck-h265-4k-k3-hw-25fps-200f-v1",
+      "source": {
+        "url": "https://nexus.bianbu.xyz/repository/video/demo/Roast_Duck_H.265_2160p_14m.mp4",
+        "filename": "source-4k-10s.mp4",
+        "clip_seconds": 10,
+        "download_prefix_bytes": 16777216,
+        "codec": "h265",
+        "minimum_width": 3840,
+        "minimum_height": 2160
+      },
+      "transform": {"width": 3840, "height": 2160, "decoder": "hevc_stcodec"},
+      "artifacts": {
+        "i420": {"filename": "input-3840x2160-25fps-200f.i420", "format": "rawvideo", "pixel_format": "yuv420p"},
+        "h264": {"filename": "input-3840x2160-25fps-200f.264", "codec": "h264"},
+        "h265": {"filename": "input-3840x2160-25fps-200f.265", "codec": "hevc"},
+        "vp8": {"filename": "input-3840x2160-200f-vp8.ivf", "codec": "vp8", "generator": "ffmpeg-vp8_stcodec"},
+        "vp9": {"filename": "input-3840x2160-200f-vp9.ivf", "codec": "vp9", "generator": "mvx_encoder"},
+        "mjpeg": {"filename": "input-3840x2160-200f.mjpg", "codec": "mjpeg", "generator": "ffmpeg-mjpeg_stcodec"}
+      }
+    }
+  },
+  "artifacts": {
+    "i420": {"filename": "input-1920x1080-25fps-200f.i420", "format": "rawvideo", "pixel_format": "yuv420p"},
+    "h264": {"filename": "input-1920x1080-25fps-200f.264", "codec": "h264"},
+    "h265": {"filename": "input-1920x1080-25fps-200f.265", "codec": "hevc"}
+  }
+}
