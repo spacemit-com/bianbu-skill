@@ -102,7 +102,7 @@ On `submission requires APC_API_KEY` or `requires API key`, tell the user:
 
 > Sign in to the SpaceMIT community, obtain an API Key, and configure APC_API_KEY in the environment that actually runs APM. Then retry the submission. Do not send the Key in chat; offline validation can still be completed.
 
-The default community service entry is [developer.bianbu.xyz](https://developer.bianbu.xyz). Ask the user to locate API Key management in their community account. This guide does not assume a specific menu or Key-page URL; contact community support if it cannot be found. The CLI has no `apm login`, `apm auth login` or Key-writing command.
+The production community service entry is [developer.spacemit.com](https://developer.spacemit.com); the test environment is `developer.bianbu.xyz` described in the environment warning above. API Keys are managed on the developer console's personal page, [developer.spacemit.com/auth/modifyUserInfo/developerApiKeys](https://developer.spacemit.com/auth/modifyUserInfo/developerApiKeys) — the same page Agent Hub's Settings tab links to. If the user cannot find it, ask them to locate API Key management in their community account or contact community support. The CLI has no `apm login`, `apm auth login` or Key-writing command.
 
 The user can configure a Bash session without echoing the Key:
 
@@ -115,6 +115,36 @@ unset apm_community_key
 ```
 
 Run the original apm command in that terminal, or start the Agent from that environment. Exporting in another terminal does not change an already running Agent's environment. Client credential/environment settings must reach the process executing APM. Do not print the variable, scan other applications' credentials, or write the Key into templates, submission messages or resource directories.
+
+### Keys already configured in Agent Hub
+
+When the user runs Bibit and says they already saved a Key in Agent Hub's Settings tab, do not ask for it again. That Key belongs to the Agent Hub plugin, not to apm, and apm cannot find it on its own — the CLI takes the credential only from `APC_API_KEY`. The plugin keeps it in its own settings file under Bibit's data folder:
+
+```text
+<data folder>/providers/store/settings.json
+```
+
+The default data folder on Linux is `~/.local/share/BiBit/data`, so the default file is `~/.local/share/BiBit/data/providers/store/settings.json`. The user can move Bibit's data folder, so locate the file rather than assuming the path:
+
+```bash
+set +x
+bibit_data="${XDG_DATA_HOME:-$HOME/.local/share}"
+settings=$(find "$bibit_data" -maxdepth 6 -path '*providers/store/settings.json' 2>/dev/null | head -1)
+```
+
+It is a JSON document with `schemaVersion: 2` and an `apiKeys` array. The entry carrying `"enabled": true` is the active credential, and at most one entry is enabled. Export it for the current command without printing it:
+
+```bash
+export APC_API_KEY=$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(next(k["key"] for k in d.get("apiKeys", []) if k.get("enabled")))' "$settings" 2>/dev/null)
+[ -n "$APC_API_KEY" ] || echo 'No enabled API Key in Agent Hub settings'
+```
+
+Rules for this file:
+
+- Read this one file only, the enabled entry only, and only into the environment. It is the user's own Agent Hub configuration, written for exactly this purpose; the general "do not scan other applications' credentials" rule still forbids every other credential store.
+- Never print, `cat`, log or echo the Key or the shell variable, and never copy it into templates, submission messages or resource directories.
+- Do not edit the file. Key management belongs to the Agent Hub Settings tab.
+- If the file is absent, holds no enabled entry, or does not parse, treat it as "no Key configured" and fall back to the instructions above.
 
 For invalid/expired Keys or permission errors, ask the user to update the Key or check account permissions in the community. Do not blindly retry or switch to direct service requests. With no Key, run standalone `apm validate`: submit can be rejected by the Key check before source preparation.
 

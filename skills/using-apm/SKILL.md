@@ -3,7 +3,7 @@ schema_version: 2
 name: using-apm
 name_zh: APM 使用手册
 name_en: APM Agent Handbook
-version: "v1.5.0"
+version: "v1.5.1"
 description: Use when users request finding, installing, updating, removing, creating, validating or uploading Bianbu/SpaceMIT (a.k.a. 进迭时空) Power resources (Skill, Plugin, MCP or Agent), mention APM/APC/AgentHub submission, or encounter Power validation or API Key errors; also use when a running Bibit expert is missing a Skill or MCP that its own agent.yaml declares or its task requires.
 description_zh: 在用户需要查找、安装、更新、卸载、创建、校验或上传 Bianbu/SpaceMIT（进迭时空）Power 资源（Skill、Plugin、MCP、Agent），或遇到 APM/APC 提交、格式校验、API Key 问题时使用；当运行中的 Bibit 专家缺少其 agent.yaml 声明或任务所需的 Skill/MCP 时同样适用。
 ---
@@ -62,7 +62,7 @@ Local only is a complete endpoint, not a half-finished upload: the user may neve
 3. Run `apm validate <path> --type <type> --json`. Fix specific errors and rerun without changing the user's requirements merely to pass.
 4. When a required field is missing or unusable (a real `name_zh`/`name_en`/`description_zh`, Maintainer owner and contact, the MCP command or URL, the actual `soul`), ask the user for that specific value. Never invent a Chinese name, translate one yourself, or fabricate a contact or service address; report the file, the field and why it cannot be completed.
 5. Upload requires the user's explicit approval. Present a short review summary — type, path, name, version, `name_zh`, `name_en`, `description_zh`, the `--message`, and the target APC under the current `APC_API_KEY` — and state that publishing is irreversible for a given `(type, name, version)` and that a new version must be strictly higher. Run `apm submit <path> --type <type> --message 'Describe this submission'` only after the user approves that summary. Without approval, hand over the validated source directory and stop; creation or validation alone does not authorize uploading.
-6. Missing Key: ask the user to sign in to the SpaceMIT community, obtain an API Key and configure `APC_API_KEY` in the environment running APM. Follow [authentication](references/cli.md#authentication). Finish offline validation while waiting; never request the Key in chat.
+6. Missing Key: when the user runs Bibit, first check whether they already saved a Key in Agent Hub's Settings tab — the Agent Hub plugin stores it and it can be exported for the command; see [Keys already configured in Agent Hub](references/cli.md#keys-already-configured-in-agent-hub). Otherwise ask the user to sign in to the SpaceMIT community, obtain an API Key and configure `APC_API_KEY` in the environment running APM. Follow [authentication](references/cli.md#authentication). Finish offline validation while waiting; never request the Key in chat.
 7. Save `submission_id`; track with `apm submission get <id> --output json`. Acceptance (`accepted` / `received`) is not publication (`published`).
 
 ### Placing a local-only resource
