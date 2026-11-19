@@ -3,7 +3,7 @@ schema_version: 2
 name: using-apm
 name_zh: APM 使用手册
 name_en: APM Agent Handbook
-version: "v1.5.1"
+version: "v1.5.3"
 description: Use when users request finding, installing, updating, removing, creating, validating or uploading Bianbu/SpaceMIT (a.k.a. 进迭时空) Power resources (Skill, Plugin, MCP or Agent), mention APM/APC/AgentHub submission, or encounter Power validation or API Key errors; also use when a running Bibit expert is missing a Skill or MCP that its own agent.yaml declares or its task requires.
 description_zh: 在用户需要查找、安装、更新、卸载、创建、校验或上传 Bianbu/SpaceMIT（进迭时空）Power 资源（Skill、Plugin、MCP、Agent），或遇到 APM/APC 提交、格式校验、API Key 问题时使用；当运行中的 Bibit 专家缺少其 agent.yaml 声明或任务所需的 Skill/MCP 时同样适用。
 ---
@@ -56,7 +56,7 @@ Decide the endpoint first, and ask the user when it is ambiguous. State the two 
 
 Local only is a complete endpoint, not a half-finished upload: the user may never publish this resource. When the user chose local only, stop before `apm submit` and do not ask for the API Key. Running `apm validate` still helps for a Skill, because that type uses the same format in both places, but a validation error is not an instruction to publish.
 
-1. Read the [submission rules](references/submission.md) and [template instructions](templates/README.md). Copy the appropriate resource root and fill in real capabilities, metadata, dependencies and maintainer information. Replace identity placeholders. For a local-only resource, place it as described under "Placing a local-only resource" below.
+1. Read the [submission rules](references/submission.md) and [template instructions](templates/README.md). Copy the appropriate resource root and fill in real capabilities, metadata, dependencies and maintainer information. Replace identity placeholders. For a local-only resource, place it as described under "Placing a local-only resource" below. An Expert that needs its own Skill, Plugin or MCP carries them in the same resource root under `skills/`, `plugins/` or `mcps/mcp.<name>/mcp.json` — the same layout the runtime installs an MCP into; the MCP file is the runtime's installed form, not the MCP submission form.
 
 2. Every resource uses Power format v2: `schema_version: 2` in the authoritative files plus the required `name_zh`, `name_en` and `description_zh` display fields. `name` stays the call name and is NOT held to the display-name limits. Display names are length-limited: `name_zh` is 2-16 characters (counted in Unicode characters, not bytes) and `name_en` is at most 32 printable ASCII characters with at least one letter. `description` and `description_zh` are each capped at 500 UTF-16 code units (APC's limit, counted in code units rather than bytes), so shorten an over-long description instead of cutting unrelated capability text. Submission rejects version 1, so upgrade an older resource before submitting.
 3. Run `apm validate <path> --type <type> --json`. Fix specific errors and rerun without changing the user's requirements merely to pass.
